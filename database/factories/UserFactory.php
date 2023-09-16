@@ -17,7 +17,11 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        //get all id's from Role model
+        $roleIds = \App\Models\Role::pluck('id')->toArray();
+
         return [
+            'role_id' => fake()->randomElement($roleIds),
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
