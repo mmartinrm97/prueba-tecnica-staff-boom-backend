@@ -21,6 +21,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|Role whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Role whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Role whereUpdatedAt($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
+ * @property-read int|null $users_count
  * @mixin \Eloquent
  */
 class Role extends Model

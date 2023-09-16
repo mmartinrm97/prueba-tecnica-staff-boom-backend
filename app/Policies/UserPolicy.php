@@ -2,12 +2,9 @@
 
 namespace App\Policies;
 
-use App\Enums\RoleType;
-use App\Models\Task;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
-class TaskPolicy
+class UserPolicy
 {
 
     public function before(User $user): ?bool
@@ -15,10 +12,8 @@ class TaskPolicy
         if ($user->isAdmin()) {
             return true;
         }
-
         return null;
     }
-
 
     /**
      * Determine whether the user can view any models.
@@ -31,7 +26,7 @@ class TaskPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Task $task): bool
+    public function view(User $user, User $model): bool
     {
         //
     }
@@ -47,15 +42,15 @@ class TaskPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Task $task): bool
+    public function update(User $user, User $model): bool
     {
-        return $user->id === $task->user_id;
+        return $user->id === $model->id;
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Task $task): bool
+    public function delete(User $user, User $model): bool
     {
         //
     }
@@ -63,7 +58,7 @@ class TaskPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Task $task): bool
+    public function restore(User $user, User $model): bool
     {
         //
     }
@@ -71,7 +66,7 @@ class TaskPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Task $task): bool
+    public function forceDelete(User $user, User $model): bool
     {
         //
     }

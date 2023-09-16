@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Enums\RoleType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -41,6 +42,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRoleId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
+ * @property-read \App\Models\Role|null $role
  * @mixin \Eloquent
  */
 class User extends Authenticatable
@@ -78,5 +80,10 @@ class User extends Authenticatable
     public function role(): BelongsTo
     {
         return $this->belongsTo(Role::class);
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role->name === RoleType::Administrador;
     }
 }

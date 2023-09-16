@@ -23,6 +23,7 @@ class TaskFactory extends Factory
             'description' => $this->faker->paragraph(1),
             //the expiration date must be carbon in the future
             'expiration_date' => now(),
+            'is_done' => $this->faker->boolean,
         ];
     }
 }

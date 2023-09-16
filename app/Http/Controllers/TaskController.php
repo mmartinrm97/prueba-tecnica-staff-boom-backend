@@ -7,16 +7,31 @@ use App\Models\Task;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use Illuminate\Http\JsonResponse;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 use Symfony\Component\HttpFoundation\Response;
 
 class TaskController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->authorizeResource(Task::class, 'task');
+    }
+
     /**
      * Display a listing of the resource.
      */
-    public function index(): JsonResponse
+    public function index()
     {
-        return BaseResource::collection(Task::paginate())
+        $tasks = QueryBuilder::for(Task::class)
+            ->allowedFields(['title', 'description','expiration_date','is_done','created_at','updated_at'])
+            ->allowedIncludes(['user'])
+            ->allowedFilters(['title','description',AllowedFilter::exact('is_done')])
+            ->allowedSorts(['title', 'description','expiration_date','is_done','created_at','updated_at'])
+            ->paginate();
+
+        return BaseResource::collection($tasks)
             ->response()
             ->setStatusCode(Response::HTTP_OK);
 
@@ -27,7 +42,7 @@ class TaskController extends Controller
      */
     public function store(StoreTaskRequest $request): JsonResponse
     {
-        $data = $request->validated() + ['user_id' => 1];
+        $data = $request->validated() + ['user_id' => $request->user()->id];
         $post = Task::create($data);
 
         return BaseResource::make($post)
@@ -59,10 +74,10 @@ class TaskController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Task $task): \Illuminate\Http\Response
+    public function destroy(Task $task): JsonResponse
     {
         $task->delete();
 
-        return response()->noContent();
+        return response()->json(null, Response::HTTP_NO_CONTENT);
     }
 }

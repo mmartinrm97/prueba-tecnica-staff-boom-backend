@@ -2,9 +2,12 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Role;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
 
-class StoreTaskRequest extends FormRequest
+class StoreUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,10 +24,14 @@ class StoreTaskRequest extends FormRequest
      */
     public function rules(): array
     {
+
+        $roleIds = Role::pluck('id')->toArray();
+
         return [
-            'title' => ['required', 'string', 'max:255'],
-            'description' => ['required', 'string', 'max:255'],
-            'expiration_date' => ['required', 'date', 'after:now'],
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', Password::default()],
+            'role_id' => ['required', 'string', Rule::in($roleIds)],
         ];
     }
 }

@@ -17,7 +17,7 @@ class CheckAdminRole
     public function handle(Request $request, Closure $next, string $role): Response
     {
         if (!$request->user() || $request->user()->role->name !== $role){
-            return response()->json(['message' => 'Forbidden'], Response::HTTP_FORBIDDEN);
+            return response()->json(['message' => 'This action is unauthorized'], Response::HTTP_FORBIDDEN);
         }
 
         return $next($request);
