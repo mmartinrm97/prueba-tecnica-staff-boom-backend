@@ -68,8 +68,10 @@ class User extends Authenticatable
     protected $casts = [
         'id' => 'string',
         'role_id' => 'string',
-        'email_verified_at' => 'datetime',
+        'email_verified_at' => 'datetime:Y-m-d',
         'password' => 'hashed',
+        'created_at' => 'datetime:Y-m-d',
+        'updated_at' => 'datetime:Y-m-d',
     ];
 
     public function tasks(): HasMany

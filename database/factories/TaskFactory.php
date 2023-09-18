@@ -22,7 +22,7 @@ class TaskFactory extends Factory
             'title' => $this->faker->sentence,
             'description' => $this->faker->paragraph(1),
             //the expiration date must be carbon in the future
-            'expiration_date' => now(),
+            'expiration_date' => now()->addDays($this->faker->numberBetween(1, 30)),
             'is_done' => $this->faker->boolean,
         ];
     }

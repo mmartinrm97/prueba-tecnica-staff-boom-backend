@@ -44,8 +44,10 @@ class Task extends Model
     protected $casts = [
         'id' => 'string',
         'user_id' => 'string',
-        'expiration_date' => 'datetime',
+        'expiration_date' => 'datetime:Y-m-d',
         'is_done' => 'boolean',
+        'created_at' => 'datetime:Y-m-d',
+        'updated_at' => 'datetime:Y-m-d',
     ];
 
     public function user(): BelongsTo
