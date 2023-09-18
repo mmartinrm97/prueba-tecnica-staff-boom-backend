@@ -1,7 +1,7 @@
 # StaffBoom Task Management App
 
 Este repositorio contiene el código fuente de la aplicación web de gestión de tareas desarrollada para la prueba técnica
-de StaffBoom Perú. La aplicación se ha construido utilizando el framework Laravel para el backend y Vue.js para el
+de StaffBoom Perú. La aplicación se ha construido utilizando el framework Laravel 10 para el backend y Nuxt 3.js para el
 frontend.
 
 ## Requisitos Previos
@@ -67,15 +67,4 @@ Siga estos pasos para configurar la aplicación localmente:
 php artisan serve
 ```
 
-2. Esto iniciará un servidor de desarrollo en http://localhost:8000. Abre tu navegador web y navega a esta dirección para
-acceder a la aplicación. Las credenciales son las siguientes:
-
-
-    - Email: admin@example.com
-    - Password: password
-
-ó
-
-    - Email: standard@example.com
-    - Password: password
-
+2. Esto iniciará un servidor de desarrollo en http://localhost:8000.
