@@ -10,14 +10,14 @@ use Illuminate\Auth\Access\Response;
 class TaskPolicy
 {
 
-    public function before(User $user): ?bool
-    {
-        if ($user->isAdmin()) {
-            return true;
-        }
-
-        return null;
-    }
+//    public function before(User $user): ?bool
+//    {
+//        if ($user->isAdmin()) {
+//            return true;
+//        }
+//
+//        return null;
+//    }
 
 
     /**
@@ -25,7 +25,7 @@ class TaskPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return $user->id === request()->route('user')->id;
     }
 
     /**
@@ -33,7 +33,7 @@ class TaskPolicy
      */
     public function view(User $user, Task $task): bool
     {
-        //
+        return $user->id === $task->user_id;
     }
 
     /**
@@ -41,7 +41,7 @@ class TaskPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->id === request()->route('user')->id;
     }
 
     /**
@@ -57,7 +57,7 @@ class TaskPolicy
      */
     public function delete(User $user, Task $task): bool
     {
-        //
+        return $user->id === $task->user_id;
     }
 
     /**
@@ -65,7 +65,7 @@ class TaskPolicy
      */
     public function restore(User $user, Task $task): bool
     {
-        //
+        return $user->id === $task->user_id;
     }
 
     /**
@@ -73,6 +73,6 @@ class TaskPolicy
      */
     public function forceDelete(User $user, Task $task): bool
     {
-        //
+        return $user->id === $task->user_id;
     }
 }

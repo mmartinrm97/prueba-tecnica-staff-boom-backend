@@ -24,7 +24,7 @@ class UpdateTaskRequest extends FormRequest
         return [
             'title' => ['string', 'max:255'],
             'description' => ['string', 'max:255'],
-            'expiration_date' => ['date'],
+            'expiration_date' => ['date', 'after:now'],
             'is_done' => 'boolean',
         ];
     }

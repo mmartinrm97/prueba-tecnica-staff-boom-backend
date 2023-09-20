@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Enums\RoleType;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,9 +15,9 @@ class CheckAdminRole
      *
      * @param \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response) $next
      */
-    public function handle(Request $request, Closure $next, string $role): Response
+    public function handle(Request $request, Closure $next): Response
     {
-        if (!$request->user() || $request->user()->role->name !== $role){
+        if (!$request->user() || $request->user()->role->name !== RoleType::ADMINISTRADOR){
             return response()->json(['message' => 'This action is unauthorized'], Response::HTTP_FORBIDDEN);
         }
 

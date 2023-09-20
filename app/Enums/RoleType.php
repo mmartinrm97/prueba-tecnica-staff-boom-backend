@@ -11,6 +11,6 @@ use BenSampo\Enum\Enum;
  */
 final class RoleType extends Enum
 {
-    const Administrador = 'Administrador';
-    const Usuario = 'Usuario';
+    const ADMINISTRADOR = 'Administrador';
+    const USUARIO = 'Usuario';
 }

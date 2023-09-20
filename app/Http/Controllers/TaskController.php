@@ -14,15 +14,10 @@ use Symfony\Component\HttpFoundation\Response;
 class TaskController extends Controller
 {
 
-    public function __construct()
-    {
-        $this->authorizeResource(Task::class, 'task');
-    }
-
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): JsonResponse
     {
         $tasks = QueryBuilder::for(Task::class)
             ->allowedFields(['title', 'description','expiration_date','is_done','created_at','updated_at'])
@@ -37,18 +32,18 @@ class TaskController extends Controller
 
     }
 
+
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreTaskRequest $request): JsonResponse
-    {
-        $data = $request->validated() + ['user_id' => $request->user()->id];
-        $post = Task::create($data);
-
-        return BaseResource::make($post)
-            ->response()
-            ->setStatusCode(Response::HTTP_CREATED);
-    }
+//    public function store(StoreTaskRequest $request): JsonResponse
+//    {
+//        $task = $request->user()->tasks()->create($request->validated());
+//
+//        return BaseResource::make($task)
+//            ->response()
+//            ->setStatusCode(Response::HTTP_CREATED);
+//    }
 
     /**
      * Display the specified resource.
@@ -63,21 +58,21 @@ class TaskController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTaskRequest $request, Task $task): JsonResponse
-    {
-        return BaseResource::make(tap($task)->update($request->validated()))
-            ->response()
-            ->setStatusCode(Response::HTTP_OK);
-
-    }
+//    public function update(UpdateTaskRequest $request, Task $task): JsonResponse
+//    {
+//        return BaseResource::make(tap($task)->update($request->validated()))
+//            ->response()
+//            ->setStatusCode(Response::HTTP_OK);
+//
+//    }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Task $task): JsonResponse
-    {
-        $task->delete();
-
-        return response()->json(null, Response::HTTP_NO_CONTENT);
-    }
+//    public function destroy(Task $task): JsonResponse
+//    {
+//        $task->delete();
+//
+//        return response()->json(null, Response::HTTP_NO_CONTENT);
+//    }
 }

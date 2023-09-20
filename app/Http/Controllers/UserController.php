@@ -31,7 +31,7 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreUserRequest $request)
+    public function store(StoreUserRequest $request): JsonResponse
     {
         $user = User::create($request->validated());
         $user->load('role');
@@ -56,7 +56,6 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user): JsonResponse
     {
-        $user->load('role');
 
         return BaseResource::make(tap($user)->update($request->validated()))
             ->response()

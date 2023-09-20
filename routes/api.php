@@ -1,10 +1,10 @@
 <?php
 
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserTaskController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,19 +17,31 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::post('register', [AuthController::class, 'register'])->name('register');
-Route::post('login', [AuthController::class, 'login'])->name('login');
+Route::prefix('auth')->middleware(['api'])->group(function () {
 
-//create a route group with auth:sanctum middleware
-Route::group(['middleware' => 'auth:sanctum'], function () {
-    //create a route group with admin role middleware
-    Route::group(['middleware' => 'role:Administrador'], function () {
-        Route::apiResource('users', UserController::class);
+    Route::post('signup', [AuthController::class, 'signup'])->name('auth.signup');
+    Route::post('login', [AuthController::class, 'login'])->name('auth.login');
+    Route::post('/password/email', [AuthController::class, 'sendPasswordResetLinkEmail'])->middleware('throttle:5,1')->name('password.email');
+    Route::post('/password/reset', [AuthController::class, 'resetPassword'])->name('password.reset');
+
+    Route::middleware(['auth:sanctum'])->group(function () {
+        Route::post('logout', [AuthController::class, 'logout'])->name('auth.logout');
+        Route::get('user', [AuthController::class, 'getAuthenticatedUser'])->name('auth.user');
     });
 
-    Route::get('auth/my-profile', [AuthController::class,'myProfile'])->name('my-profile');
+});
 
-    Route::apiResource('tasks', TaskController::class);
+
+Route::group(['middleware' => 'auth:sanctum'], function () {
+
+    Route::group(['middleware' => 'admin'], function () {
+        Route::apiResource('users', UserController::class);
+        Route::apiResource('tasks', TaskController::class)->only(['index', 'show']);
+
+    });
+
+    Route::apiResource('users.tasks', UserTaskController::class)->scoped();
+
 });
 
 
