@@ -21,9 +21,9 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        return BaseResource::collection(User::paginate())
+        return BaseResource::collection(User::paginate($request->get('per_page', 15)))
             ->response()
             ->setStatusCode(Response::HTTP_OK);
     }
